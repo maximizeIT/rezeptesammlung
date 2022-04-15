@@ -1,0 +1,4 @@
+public
+src/data
+**/.git
+**/node_modules
