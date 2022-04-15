@@ -3,55 +3,56 @@ import {useState, useEffect, useCallback, Fragment} from 'react';
 // import { cloneElement } from 'react';
 
 // import Material UI components
-import Box from '@mui/material/Box';
-import Backdrop from '@mui/material/Backdrop';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Masonry from '@mui/lab/Masonry';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import List from '@mui/material/List';
-import ListSubheader from '@mui/material/ListSubheader';
-import ListItem from '@mui/material/ListItem';
-import Tooltip from '@mui/material/Tooltip';
-import Autocomplete, {autocompleteClasses} from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
-import Toolbar from '@mui/material/Toolbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import IconButton from '@mui/material/IconButton';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Slide from '@mui/material/Slide';
-import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
+import Autocomplete, {autocompleteClasses} from '@mui/material/Autocomplete';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListSubheader from '@mui/material/ListSubheader';
+import Masonry from '@mui/lab/Masonry';
+import Slide from '@mui/material/Slide';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import {styled} from '@mui/material/styles';
 
+// import Divider from '@mui/material/Divider';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
 // import ToggleButton from '@mui/material/ToggleButton';
 // import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-// import Switch from '@mui/material/Switch';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Divider from '@mui/material/Divider';
 
 // icons
-import CelebrationIcon from '@mui/icons-material/Celebration';
 import BlenderIcon from '@mui/icons-material/Blender';
+import CelebrationIcon from '@mui/icons-material/Celebration';
 import ReportIcon from '@mui/icons-material/Report';
 // import NumbersIcon from '@mui/icons-material/Numbers';
 // import ViewListIcon from '@mui/icons-material/ViewList';
 // import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
 
 // helpers
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
-import {matchSorter} from 'match-sorter';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import match from 'autosuggest-highlight/match';
+import parse from 'autosuggest-highlight/parse';
+import {matchSorter} from 'match-sorter';
 
 // import components
-import ScrollTop from './ScrollTop';
-import Recipe from './Recipe';
 import Footer from './Footer';
+import Recipe from './Recipe';
+import ScrollTop from './ScrollTop';
 
 // import recipes
 import RECIPES from './data/recipes';
@@ -89,16 +90,16 @@ function HideAppbarOnScroll(props) {
 }
 
 const StyledAutocompletePopper = styled('div')(({theme}) => ({
-	[`& .${autocompleteClasses.groupLabel}`]: {
-		background: theme.palette.secondary.main,
-		color: '#fff',
-	},
 	[`& .${autocompleteClasses.listbox}`]: {
 		padding: 0,
 		margin: 0,
 		[`& .${autocompleteClasses.option}`]: {
 			paddingLeft: 15,
 			borderBottom: `1px solid  ${theme.palette.secondary.main}`,
+		},
+		[`& .${autocompleteClasses.groupLabel}`]: {
+			background: theme.palette.secondary.main,
+			color: '#fff',
 		},
 	},
 }));
@@ -269,125 +270,128 @@ function App(props) {
 									</Box>
 								</Grid>
 
-								<Grid
-									item
-									xs={12}
-									sm={9}
-									md={6}
-									container
-									alignItems={'center'}
-								>
-									<Autocomplete
-										PopperComponent={StyledListBoxPopperComponent}
-										loading={loading}
-										fullWidth
-										clearOnEscape
-										options={allRecipes ? allRecipes : ['']}
-										filterOptions={filterOptions}
-										noOptionsText='Keine Rezepte gefunden :('
-										groupBy={(option) => option.first_letter}
-										getOptionLabel={(option) => option.recipe_title}
-										isOptionEqualToValue={(option, value) =>
-											option.recipe_title === value.recipe_title
-										}
-										value={selectedRecipe}
-										onChange={(_event, newRecipe) => {
-											if (newRecipe) {
-												setRecipe(newRecipe);
-											} else {
-												resetSearchFilterView();
-											}
-										}}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												label='Suche nach Rezepten...'
-												variant='outlined'
-												color='secondary'
-												InputProps={{
-													...params.InputProps,
-													endAdornment: (
-														<Fragment>
-															{loading ? (
-																<CircularProgress color='inherit' size={20} />
-															) : null}
-															{params.InputProps.endAdornment}
-														</Fragment>
-													),
-												}}
-											/>
-										)}
-										renderOption={(props, option, {inputValue}) => {
-											const matches = match(option.recipe_title, inputValue);
-											const parts = parse(option.recipe_title, matches);
-
-											return (
-												<li {...props}>
-													<div>
-														{parts.map((part, index) => (
-															<span
-																key={index}
-																style={{
-																	fontWeight: part.highlight ? 700 : 400,
-																}}
-															>
-																{part.text}
-															</span>
-														))}
-													</div>
-												</li>
-											);
-										}}
-									/>
-								</Grid>
-
-								<Grid
-									item
-									xs={12}
-									sm={3}
-									md={3}
-									container
-									justifyContent={triggerSm ? 'right' : 'center'}
-									alignItems={triggerSm ? 'right' : 'center'}
-								>
-									<Stack
-										direction='row'
-										spacing={2}
-										//  divider={<Divider orientation="vertical" flexItem />}
+								{allRecipes && (
+									<Grid
+										item
+										xs={12}
+										sm={9}
+										md={6}
+										container
+										alignItems={'center'}
 									>
-										<Box sx={{py: 1}}>
-											<Tooltip title='Random'>
-												<IconButton
-													aria-label='random'
-													onClick={handleClickRandom}
-												>
-													<BlenderIcon color='secondary' />
-												</IconButton>
-											</Tooltip>
-										</Box>
-
-										{!isRecipeSelected && (
-											<Box sx={{py: 1, paddingTop: 1.5}}>
-												<Chip
+										<Autocomplete
+											PopperComponent={StyledListBoxPopperComponent}
+											loading={loading}
+											fullWidth
+											clearOnEscape
+											options={allRecipes}
+											filterOptions={filterOptions}
+											noOptionsText='Keine Rezepte gefunden :('
+											groupBy={(option) => option.first_letter}
+											getOptionLabel={(option) => option.recipe_title}
+											isOptionEqualToValue={(option, value) =>
+												option.recipe_title === value.recipe_title
+											}
+											value={selectedRecipe}
+											onChange={(_event, newRecipe) => {
+												if (newRecipe) {
+													setRecipe(newRecipe);
+												} else {
+													resetSearchFilterView();
+												}
+											}}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													label='Suche nach Rezepten...'
+													variant='outlined'
 													color='secondary'
-													label={`${
-														allRecipes ? allRecipes.length : '0'
-													} Rezepte`}
+													InputProps={{
+														...params.InputProps,
+														endAdornment: (
+															<Fragment>
+																{loading ? (
+																	<CircularProgress color='inherit' size={20} />
+																) : null}
+																{params.InputProps.endAdornment}
+															</Fragment>
+														),
+													}}
 												/>
-											</Box>
-										)}
+											)}
+											renderOption={(props, option, {inputValue}) => {
+												const matches = match(option.recipe_title, inputValue);
+												const parts = parse(option.recipe_title, matches);
 
-										{isRecipeSelected && (
-											<Box sx={{py: 1, paddingTop: 1.5}}>
-												<Chip
-													color='error'
-													label='Reset'
-													onDelete={handleIsRecipeSelectedDelete}
-												/>
+												return (
+													<li {...props}>
+														<div>
+															{parts.map((part, index) => (
+																<span
+																	key={index}
+																	style={{
+																		fontWeight: part.highlight ? 700 : 400,
+																	}}
+																>
+																	{part.text}
+																</span>
+															))}
+														</div>
+													</li>
+												);
+											}}
+										/>
+									</Grid>
+								)}
+								{allRecipes && (
+									<Grid
+										item
+										xs={12}
+										sm={3}
+										md={3}
+										container
+										justifyContent={triggerSm ? 'right' : 'center'}
+										alignItems={triggerSm ? 'right' : 'center'}
+									>
+										<Stack
+											direction='row'
+											spacing={2}
+											//  divider={<Divider orientation="vertical" flexItem />}
+										>
+											<Box sx={{py: 1}}>
+												<Tooltip title='Random'>
+													<IconButton
+														aria-label='random'
+														onClick={handleClickRandom}
+													>
+														<BlenderIcon color='secondary' />
+													</IconButton>
+												</Tooltip>
 											</Box>
-										)}
-									</Stack>
-								</Grid>
+
+											{!isRecipeSelected && (
+												<Box sx={{py: 1, paddingTop: 1.5}}>
+													<Chip
+														color='secondary'
+														label={`${
+															allRecipes ? allRecipes.length : '0'
+														} Rezepte`}
+													/>
+												</Box>
+											)}
+
+											{isRecipeSelected && (
+												<Box sx={{py: 1, paddingTop: 1.5}}>
+													<Chip
+														color='error'
+														label='Reset'
+														onDelete={handleIsRecipeSelectedDelete}
+													/>
+												</Box>
+											)}
+										</Stack>
+									</Grid>
+								)}
 							</Grid>
 						) : (
 							<IconButton
@@ -576,12 +580,12 @@ function App(props) {
 																		}}
 																	>
 																		<ListSubheader sx={{background: 'none'}}>
-																			<Typography
-																				variant='h4'
-																				color={'secondary'}
-																			>
-																				{sectionId}
-																			</Typography>
+																			<Divider sx={{py: 2}}>
+																				<Chip
+																					label={sectionId}
+																					color='secondary'
+																				/>
+																			</Divider>
 																		</ListSubheader>
 
 																		{chunkedRecipes.map(
