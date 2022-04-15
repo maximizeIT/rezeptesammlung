@@ -31,7 +31,7 @@ export default function ScrollTop() {
                 role="presentation"
                 sx={{ position: 'fixed', bottom: 16, right: 16 }}
             >
-                <Fab color="info" aria-label="scroll back to top">
+                <Fab color="secondary" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon />
                 </Fab>
             </Box>
