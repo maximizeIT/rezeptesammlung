@@ -17,12 +17,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import Toolbar from '@mui/material/Toolbar';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import IconButton from '@mui/material/IconButton';
 import BlenderIcon from '@mui/icons-material/Blender';
+
+// import Switch from '@mui/material/Switch';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 
 // icons
 import NumbersIcon from '@mui/icons-material/Numbers';
@@ -115,19 +116,19 @@ function Main() {
         setAllRecipes(null)
     };
 
-    const handleShowAllChange = (event) => {
-        setLoading(true);
-        if(event.target.checked) { // show all
-            setChunkedRecipes(allRecipes);
-            setChunk(allRecipes.length);
-            setShowAll(true);
-            setHasMore(false);
-        } else { // reset
-            setChunk(3);
-            setShowAll(false);
-            setHasMore(true);
-        }
-    };
+    // const handleShowAllChange = (event) => {
+    //     setLoading(true);
+    //     if(event.target.checked) { // show all
+    //         setChunkedRecipes(allRecipes);
+    //         setChunk(allRecipes.length);
+    //         setShowAll(true);
+    //         setHasMore(false);
+    //     } else { // reset
+    //         setChunk(3);
+    //         setShowAll(false);
+    //         setHasMore(true);
+    //     }
+    // };
 
     const handleIsRecipeSelectedDelete = () => {
         resetSearchFilterView();
@@ -245,7 +246,7 @@ function Main() {
                                 direction="row"
                                 justifyContent="center"
                                 alignItems="center"
-                                sx={{ py: 3 }}
+                                sx={{ py: 2 }}
                             >
 
                                 <Stack
@@ -283,10 +284,10 @@ function Main() {
                                         </ToggleButtonGroup>                                
                                     }
 
-                                    { !isRecipeSelected && 
+                                    {/* { !isRecipeSelected && 
                                         <Box sx={{ py: 1 }}>
                                             <FormControlLabel 
-                                                label="Zeige alle Rezepte"
+                                                label="Zeige alle Rezepte ⚠️"
                                                 control={
                                                     <Switch
                                                         checked={showAll}
@@ -296,13 +297,7 @@ function Main() {
                                                 }
                                             />
                                         </Box>
-                                    }
-
-                                    { !isRecipeSelected && 
-                                        <Box sx={{ py: 1 }}>
-                                            <Chip color='success' icon={<NumbersIcon />} label={`${ allRecipes ? allRecipes.length : '0'} Rezepte`}/>
-                                        </Box>
-                                    }
+                                    } */}
 
                                     { isRecipeSelected && 
                                         <Box sx={{ py: 1 }}>
@@ -310,6 +305,19 @@ function Main() {
                                         </Box>
                                     }
                                 </Stack>
+
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    { !isRecipeSelected && 
+                                        <Box sx={{ py: 2 }}>
+                                            <Chip color='success' icon={<NumbersIcon />} label={`${ allRecipes ? allRecipes.length : '0'} Rezepte`}/>
+                                        </Box>
+                                    }
+                                </Grid>
                             </Grid>
                         </Box>
 

@@ -7,7 +7,7 @@ function Header(props) {
 
   return (
     <Box component="header">
-      <Toolbar sx={{ py: 3 }}>
+      <Toolbar sx={{ py: 2 }}>
         <Typography
           component="h1"
           variant="h4"
