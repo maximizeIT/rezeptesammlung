@@ -22,26 +22,25 @@ import Masonry from '@mui/lab/Masonry';
 import Slide from '@mui/material/Slide';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import ToggleButton from '@mui/material/ToggleButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import {styled} from '@mui/material/styles';
-
-// import Divider from '@mui/material/Divider';
+import {useTheme} from '@mui/material/styles';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Switch from '@mui/material/Switch';
-// import ToggleButton from '@mui/material/ToggleButton';
-// import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 // icons
+import AbcIcon from '@mui/icons-material/Abc';
 import BlenderIcon from '@mui/icons-material/Blender';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import ReportIcon from '@mui/icons-material/Report';
-// import NumbersIcon from '@mui/icons-material/Numbers';
-// import ViewListIcon from '@mui/icons-material/ViewList';
-// import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
 
 // helpers
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -121,7 +120,7 @@ function App(props) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
 
-	const [view, setView] = useState('list');
+	const [view, setView] = useState('feed');
 
 	const [showAll, setShowAll] = useState(false);
 	const [hasMore, setHasMore] = useState(true);
@@ -130,6 +129,8 @@ function App(props) {
 	const triggerMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
 	const [openPopper, setOpenPopper] = useState(false);
+
+	const theme = useTheme();
 
 	const filterOptions = (data, {inputValue}) =>
 		matchSorter(data, inputValue, {
@@ -184,7 +185,7 @@ function App(props) {
 		setLoading(true);
 		setSelectedRecipe(recipe);
 		setIsRecipeSelected(true);
-		setView('list');
+		setView('feed');
 		setShowAll(false);
 		setHasMore(false);
 		setOpenPopper(false);
@@ -201,7 +202,7 @@ function App(props) {
 		setLoading(true);
 		setSelectedRecipe(null);
 		setIsRecipeSelected(false);
-		setView('list');
+		setView('feed');
 		setShowAll(false);
 		setHasMore(true);
 		setChunk(3);
@@ -212,27 +213,6 @@ function App(props) {
 	const handleIsRecipeSelectedDelete = () => {
 		resetSearchFilterView();
 	};
-
-	// const handleViewToggleChange = (event, nextView) => {
-	//     setLoading(true);
-	//     if (nextView.length) {
-	//         setView(nextView);
-	//     }
-	// };
-
-	// const handleShowAllChange = (event) => {
-	//     setLoading(true);
-	//     if(event.target.checked) { // show all
-	//         setChunkedRecipes(allRecipes);
-	//         setChunk(allRecipes.length);
-	//         setShowAll(true);
-	//         setHasMore(false);
-	//     } else { // reset
-	//         setChunk(3);
-	//         setShowAll(false);
-	//         setHasMore(true);
-	//     }
-	// };
 
 	const handleRecipeClick = useCallback((recipeData) => {
 		setRecipe(recipeData);
@@ -246,6 +226,29 @@ function App(props) {
 	const handleClickRandom = () => {
 		setRecipe(allRecipes[Math.floor(Math.random() * allRecipes.length)]);
 	};
+
+	const handleViewToggleChange = (event, nextView) => {
+		setLoading(true);
+		if (nextView.length) {
+			setView(nextView);
+		}
+	};
+
+	// const handleShowAllChange = (event) => {
+	// 	setLoading(true);
+	// 	if (event.target.checked) {
+	// 		// show all
+	// 		setChunkedRecipes(allRecipes);
+	// 		setChunk(allRecipes.length);
+	// 		setShowAll(true);
+	// 		setHasMore(false);
+	// 	} else {
+	// 		// reset
+	// 		setChunk(3);
+	// 		setShowAll(false);
+	// 		setHasMore(true);
+	// 	}
+	// };
 
 	return (
 		<Container maxWidth='lg'>
@@ -353,11 +356,7 @@ function App(props) {
 										justifyContent={triggerSm ? 'right' : 'center'}
 										alignItems={triggerSm ? 'right' : 'center'}
 									>
-										<Stack
-											direction='row'
-											spacing={2}
-											//  divider={<Divider orientation="vertical" flexItem />}
-										>
+										<Stack direction='row' spacing={2}>
 											<Box sx={{py: 1}}>
 												<Tooltip title='Random'>
 													<IconButton
@@ -436,70 +435,91 @@ function App(props) {
 								}}
 							/>
 
-							{/* <Box>
-                        
-                            <Grid
-                                container
-                                direction="row"
-                                justifyContent="center"
-                                alignItems="center"
-                            >
+							<Box>
+								<Grid
+									container
+									direction='row'
+									justifyContent='center'
+									alignItems='center'
+								>
+									{/* <Box sx={{py: 1}}>
+										<ToggleButton
+											size='small'
+											color='secondary'
+											value='check'
+											selected={showOverview}
+											onChange={() => {
+												setShowOverview(!showOverview);
+											}}
+										>
+											{!showOverview ? (
+												<TocIcon color='secondary' />
+											) : (
+												<AbcIcon color='secondary' />
+											)}
+										</ToggleButton>
+									</Box> */}
 
-                                {triggerSm &&
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                    >
-                                        { !isRecipeSelected && 
-                                            <ToggleButtonGroup
-                                                orientation="horizontal"
-                                                value={view}
-                                                exclusive
-                                                onChange={handleViewToggleChange}
-                                                color="primary"
-                                            >
-                                                <ToggleButton value="list" aria-label="list">
-                                                    <Tooltip title="Listenansicht">
-                                                        <ViewListIcon />
-                                                    </Tooltip>
-                                                </ToggleButton>
-                                                <ToggleButton value="masonry" aria-label="masonry">
-                                                    <Tooltip title="Masonry-Ansicht">
-                                                        <ViewQuiltIcon />
-                                                    </Tooltip>
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>                                
-                                        }
-                                    </Grid>
-                                }
+									{/* {triggerSm && ( */}
+									<Grid
+										container
+										direction='row'
+										justifyContent='center'
+										alignItems='center'
+									>
+										{!isRecipeSelected && (
+											<ToggleButtonGroup
+												orientation='horizontal'
+												value={view}
+												exclusive
+												onChange={handleViewToggleChange}
+												size='small'
+												color='secondary'
+											>
+												<ToggleButton value='feed' aria-label='feed'>
+													<Tooltip title='Feedansicht'>
+														<ViewListIcon />
+													</Tooltip>
+												</ToggleButton>
+												<ToggleButton value='masonry' aria-label='masonry'>
+													<Tooltip title='Masonry-Ansicht'>
+														<ViewQuiltIcon />
+													</Tooltip>
+												</ToggleButton>
+												<ToggleButton value='overview' aria-label='overview'>
+													<Tooltip title='Übersicht'>
+														<AbcIcon />
+													</Tooltip>
+												</ToggleButton>
+											</ToggleButtonGroup>
+										)}
+									</Grid>
+									{/* )} */}
 
-                                { !isRecipeSelected && 
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                        sx={{ py: 3 }}
-                                    >
-                                        <Box sx={{ py: 1 }}>
-                                            <FormControlLabel 
-                                                label="Zeige alle Rezepte ⚠️"
-                                                control={
-                                                    <Switch
-                                                        checked={showAll}
-                                                        onChange={handleShowAllChange}
-                                                        inputProps={{ 'aria-label': 'controlled' }}
-                                                    />
-                                                }
-                                            />
-                                        </Box>
-                                    </Grid>
-                                }
-
-                            </Grid>
-                        </Box> */}
+									{/* {!isRecipeSelected && (
+										<Grid
+											container
+											direction='row'
+											justifyContent='center'
+											alignItems='center'
+											sx={{py: 3}}
+										>
+											<Box sx={{py: 1}}>
+												<FormControlLabel
+													label='Zeige alle Rezepte ⚠️'
+													control={
+														<Switch
+															checked={showAll}
+															onChange={handleShowAllChange}
+															inputProps={{'aria-label': 'controlled'}}
+														/>
+													}
+												/>
+											</Box>
+										</Grid>
+									)} */}
+								</Grid>
+							</Box>
 
 							{loading ? (
 								<Backdrop
@@ -512,114 +532,150 @@ function App(props) {
 									<CircularProgress color='inherit' />
 								</Backdrop>
 							) : (
-								<InfiniteScroll
-									dataLength={chunkedRecipes.length}
-									next={loadMore}
-									hasMore={hasMore}
-									loader={
-										!isRecipeSelected &&
-										hasMore && (
-											<Typography align='center' sx={{py: 3}}>
-												<CircularProgress color='inherit' />
-											</Typography>
-										)
-									}
-									endMessage={
-										!isRecipeSelected &&
-										!hasMore && (
-											<Typography variant='h5' align='center' sx={{py: 3}}>
-												Alles hat mal ein Ende! <CelebrationIcon />
-											</Typography>
-										)
-									}
-									style={{padding: '10px'}}
-								>
-									{view === 'masonry' ? (
-										<Masonry
-											columns={{xs: 1, sm: 2, lg: 3}}
-											spacing={2}
-											sx={{paddingTop: '8px'}}
+								<Box>
+									{view !== 'overview' ? (
+										<InfiniteScroll
+											dataLength={chunkedRecipes.length}
+											next={loadMore}
+											hasMore={hasMore}
+											loader={
+												!isRecipeSelected &&
+												hasMore && (
+													<Typography align='center' sx={{py: 3}}>
+														<CircularProgress color='inherit' />
+													</Typography>
+												)
+											}
+											endMessage={
+												!isRecipeSelected &&
+												!hasMore && (
+													<Typography variant='h5' align='center' sx={{py: 3}}>
+														Alles hat mal ein Ende! <CelebrationIcon />
+													</Typography>
+												)
+											}
+											style={{padding: '10px'}}
 										>
-											{!isRecipeSelected || showAll ? (
-												chunkedRecipes.map((recipe, index) => (
-													<Recipe
-														key={index}
-														view={view}
-														recipeData={recipe}
-														onClick={handleRecipeClick}
-													/>
-												))
-											) : (
-												<Recipe
-													recipeData={selectedRecipe}
-													view={view}
-													onClick={handleRecipeClick}
-													onClickClose={handleRecipeCloseClick}
-													singleView={true}
-												/>
-											)}
-										</Masonry>
-									) : (
-										<List
-											sx={{width: '100%'}}
-											subheader={<li style={{background: 'none'}} />}
-										>
-											{!isRecipeSelected || showAll ? (
-												<Box>
-													{letters.map(
-														(sectionId) =>
-															chunkedRecipes.find(
-																(recipe) => recipe.first_letter === sectionId,
-															) && (
-																<li key={`section-${sectionId}`}>
-																	<ul
-																		style={{
-																			paddingLeft: '0px',
-																			paddingTop:
-																				sectionId !== 'A' ? '20px' : 'auto',
-																		}}
-																	>
-																		<ListSubheader sx={{background: 'none'}}>
-																			<Divider sx={{py: 2}}>
-																				<Chip
-																					label={sectionId}
-																					color='secondary'
-																				/>
-																			</Divider>
-																		</ListSubheader>
-
-																		{chunkedRecipes.map(
-																			(recipe, index) =>
-																				recipe.first_letter === sectionId && (
-																					<ListItem disableGutters key={index}>
-																						<Recipe
-																							key={`item-${sectionId}-${index}`}
-																							recipeData={recipe}
-																							view={view}
-																							onClick={handleRecipeClick}
-																						/>
-																					</ListItem>
-																				),
-																		)}
-																	</ul>
-																</li>
-															),
+											{view === 'masonry' ? (
+												<Masonry
+													columns={{xs: 1, sm: 2, lg: 3}}
+													spacing={2}
+													sx={{paddingTop: '16px'}}
+												>
+													{!isRecipeSelected || showAll ? (
+														chunkedRecipes.map((recipe, index) => (
+															<Recipe
+																key={index}
+																view={view}
+																recipeData={recipe}
+																onClick={handleRecipeClick}
+															/>
+														))
+													) : (
+														<Recipe
+															recipeData={selectedRecipe}
+															view={view}
+															onClick={handleRecipeClick}
+															onClickClose={handleRecipeCloseClick}
+															singleView={true}
+														/>
 													)}
-												</Box>
+												</Masonry>
 											) : (
-												<ListItem disableGutters>
-													<Recipe
-														recipeData={selectedRecipe}
-														view={view}
-														onClick={handleRecipeClick}
-														onClickClose={handleRecipeCloseClick}
-														singleView={true}
-													/>
-												</ListItem>
+												<List
+													sx={{width: '100%'}}
+													subheader={<li style={{background: 'none'}} />}
+												>
+													{!isRecipeSelected || showAll ? (
+														<Box>
+															{letters.map(
+																(sectionId) =>
+																	chunkedRecipes.find(
+																		(recipe) =>
+																			recipe.first_letter === sectionId,
+																	) && (
+																		<li key={`section-${sectionId}`}>
+																			<ul
+																				style={{
+																					paddingLeft: '0px',
+																					paddingTop:
+																						sectionId !== 'A' ? '20px' : 'auto',
+																				}}
+																			>
+																				<ListSubheader
+																					sx={{background: 'none'}}
+																				>
+																					<Divider sx={{py: 2}}>
+																						<Chip
+																							label={sectionId}
+																							color='secondary'
+																						/>
+																					</Divider>
+																				</ListSubheader>
+
+																				{chunkedRecipes.map(
+																					(recipe, index) =>
+																						recipe.first_letter ===
+																							sectionId && (
+																							<ListItem
+																								disableGutters
+																								key={index}
+																							>
+																								<Recipe
+																									key={`item-${sectionId}-${index}`}
+																									recipeData={recipe}
+																									view={view}
+																									onClick={handleRecipeClick}
+																								/>
+																							</ListItem>
+																						),
+																				)}
+																			</ul>
+																		</li>
+																	),
+															)}
+														</Box>
+													) : (
+														<ListItem disableGutters>
+															<Recipe
+																recipeData={selectedRecipe}
+																view={view}
+																onClick={handleRecipeClick}
+																onClickClose={handleRecipeCloseClick}
+																singleView={true}
+															/>
+														</ListItem>
+													)}
+												</List>
 											)}
-										</List>
+										</InfiniteScroll>
+									) : (
+										<Grid
+											container
+											direction='row'
+											justifyContent='center'
+											alignItems='center'
+											spacing={1}
+											sx={{py: 4}}
+										>
+											{allRecipes.map((recipe, index) => (
+												<Grid item key={index}>
+													<Chip
+														clickable
+														label={recipe.recipe_title}
+														size='small'
+														variant='outlined'
+														color='primary'
+														sx={{color: theme.palette.text.primary}}
+														onClick={() => {
+															setRecipe(recipe);
+														}}
+													/>
+												</Grid>
+											))}
+										</Grid>
 									)}
-								</InfiniteScroll>
+								</Box>
 							)}
 
 							<ScrollTop />
