@@ -38,7 +38,7 @@ export default function Recipe(props) {
 			raised
 			sx={{
 				maxWidth: view === 'masonry' ? 345 : 'auto',
-				width: view === 'list' ? '100%' : 'auto',
+				width: view === 'list' ? '100%' : 'inherit',
 			}}
 		>
 			<CardHeader
