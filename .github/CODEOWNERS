@@ -1,0 +1,5 @@
+# Shared
+.github/CODEOWNERS      @maximizeIT
+
+# Global
+*                       @maximizeIT

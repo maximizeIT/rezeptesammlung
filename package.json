@@ -25,8 +25,6 @@
 	"scripts": {
 		"start": "prettier --write src/. && react-scripts start",
 		"build": "prettier --write src/. && react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
 		"predeploy": "yarn build",
 		"deploy": "gh-pages -d build"
 	},
