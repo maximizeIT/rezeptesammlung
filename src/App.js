@@ -289,6 +289,7 @@ function App(props) {
 											clearOnEscape
 											options={allRecipes}
 											filterOptions={filterOptions}
+											noOptionsText='Keine Rezepte gefunden :('
 											groupBy={(option) => option.first_letter}
 											getOptionLabel={(option) => option.recipe_title}
 											isOptionEqualToValue={(option, value) =>
