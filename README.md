@@ -1,3 +1,3 @@
 # Rezeptesammlung
 
-Deployed at: https://rezeptesammlung.herokuapp.com
+Deployed at: https://maximizeIT.github.io/rezeptesammlung

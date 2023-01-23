@@ -1,12 +1,94 @@
-# dependencies
-/node_modules
+# caches
+.parcel-cache
+.eslintcache
 
-# testing
-/coverage
+# Class & dist dir
+bin/test/*
+client/dist/
+/dist/
+target/
+build/
+*/out/
 
-# production
-/build
+.gradle/
 
-# misc
+# Eclipse
+.project
+.classpath
+.settings/
+.checkstyle
+
+# User-specific stuff:
+.idea/checkstyle-idea.xml
+.idea/compiler.xml
+.idea/dictionaries
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/.name
+.idea/shelf
+.idea/google-java-format.xml
+.idea/codeStyles/codeStyleConfig.xml
+node_modules/
+
+# Not used here
+.idea/composerJson.xml
+.idea/php.xml
+.idea/mongoSettings.xml
+.idea/codeStyleSettings.xml
+.idea/vagrant.xml
+.idea/libraries/
+
+# Sensitive or high-churn files:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+*.iml
+
+# Mac OS X
 .DS_Store
-npm-debug.log*
+
+# Customized configurations
+*.custom.properties
+
+# Logging
+logs/
+log4j2-test.json
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# py binaries #
+*.pyc
+
+# Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Docker stuff
+docker/mongo/data/db/*
+!docker/mongo/data/db/.gitkeep
+.docker
+
+# deployment
+builds
+deploy
+progress
+coverage
+tmp
+typings/types.d.ts
+package-lock.json
